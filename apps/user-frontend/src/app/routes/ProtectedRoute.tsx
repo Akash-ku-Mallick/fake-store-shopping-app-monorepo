@@ -1,14 +1,14 @@
 import { type ReactNode } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store/type";
 import Login from "../(public)/login";
+import { useAppSelector } from "../../hooks/reduxHelper";
+import { currentToken } from "../../store/slices/authSlice";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuth = useSelector((state: RootState) => !!state.auth.token);
+  const isAuth = useAppSelector(currentToken);
   if (!isAuth) return <Login />;
 
   return <>{children}</>;

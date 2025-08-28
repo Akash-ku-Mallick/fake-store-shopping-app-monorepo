@@ -3,7 +3,7 @@ import { authApi } from "@shared/api/authApi";
 import { productsApi } from "@shared/api/productsApi";
 import { cartsApi } from "@shared/api/cartsApi";
 import { usersApi } from "@shared/api/usersApi";
-import authReducer from "@shared/store/authSlice";
+import authReducer from "apps/user-frontend/src/store/slices/authSlice";
 
 export const store = configureStore({
   reducer: {

@@ -1,13 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-}
+import processQueryParams from "@shared/utils/processQueryParams";
+import { getProductsPayloadType, Product } from "./type";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
@@ -16,8 +9,27 @@ export const productsApi = createApi({
   }),
   tagTypes: ["Products"],
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], void>({
-      query: () => "products",
+    getProducts: builder.query<Product[], getProductsPayloadType>({
+      query: (args) => ({
+        url: "products/",
+        params: processQueryParams(args)
+
+      }),
+      serializeQueryArgs: ({ endpointName }) => {
+        // Cache per `title` so that different titles don't overwrite each other
+        return endpointName;
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.offset === 0) {
+          // reset when title changes or offset starts from 0
+          return newItems;
+        }
+        return [...currentCache, ...newItems];
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        // Refetch if title changes
+        return currentArg?.title !== previousArg?.title;
+      },
       providesTags: ["Products"],
     }),
     getProductById: builder.query<Product, number>({

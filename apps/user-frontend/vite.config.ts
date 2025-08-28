@@ -8,6 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@shared": path.resolve(__dirname, "../../packages/shared"),
+      "@hooks": path.resolve(__dirname, "./src/store"),
+      "@store": path.resolve(__dirname, "./src/hooks"),
     },
   },
 })

@@ -6,12 +6,17 @@ import Cart from "../(private)/cart";
 import Checkout from "../(private)/checkout";
 import Profile from "../(private)/profile";
 import type { JSX } from "react";
+import Products from "../(public)/products";
+import TestPaymentPage from "../TestPayment";
+import VerifyEmail from "../(public)/verifyEmail";
+import AuthLayout from "../(public)/(auth)/layout";
 
 export interface AppRoute {
   path?: string;
   element: JSX.Element;
   isProtected?: boolean;
   index?: boolean;
+  children?: AppRoute[];
 }
 
 export const userRoutes: AppRoute[] = [
@@ -21,11 +26,21 @@ export const userRoutes: AppRoute[] = [
     isProtected: false,
   },
   {
+    path: "products",
+    element: <Products />,
+    isProtected: false,
+  },
+  {
     path: "products/:id",
     element: <ProductDetails />,
     isProtected: false,
   },
   {
+    path: 'auth',
+    element: <AuthLayout />,
+    isProtected: false,
+    children: [
+      {
     path: "login",
     element: <Login />,
     isProtected: false,
@@ -34,6 +49,13 @@ export const userRoutes: AppRoute[] = [
     path: "register",
     element: <Register />,
     isProtected: false,
+  },
+  {
+    path: 'verify-email',
+    element: <VerifyEmail />,
+    isProtected: false
+  },
+    ]
   },
   {
     path: "cart",
@@ -50,4 +72,9 @@ export const userRoutes: AppRoute[] = [
     element: <Profile />,
     isProtected: true,
   },
+  {
+    path: 'test',
+    element: <TestPaymentPage />,
+    isProtected: false
+  }
 ];

@@ -25,4 +25,8 @@
   },
   "include": ["src"],
     "extends": "../../tsconfig.json",
+    "paths": {
+      "@store/*": ["./src/store/*"],
+      "@hooks/*": ["./src/hooks/*"]
+    },
 }
